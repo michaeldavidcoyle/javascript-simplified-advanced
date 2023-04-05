@@ -17,7 +17,13 @@ export function createBoard(boardSize, mineCount) {
             const tile = {
                 element,
                 x,
-                y
+                y,
+                get status() {
+                    return this.element.dataset.status;
+                },
+                set status(status) {
+                    this.element.dataset.status = status;
+                }
             }
             row.push(tile);
         }
