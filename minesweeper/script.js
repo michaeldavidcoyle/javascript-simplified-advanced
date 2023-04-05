@@ -7,13 +7,16 @@ const MINE_COUNT = 4;
 
 const board = createBoard(BOARD_SIZE, MINE_COUNT);
 const boardElement = document.querySelector('.board');
-boardElement.style.setProperty('--size', BOARD_SIZE);
-// console.log(board);
+const minesLeft = document.querySelector('[data-mine-count]');
+
 board.forEach(row => {
     row.forEach(tile => {
         boardElement.appendChild(tile.element)
     });
 });
+
+boardElement.style.setProperty('--size', BOARD_SIZE);
+minesLeft.innerText = MINE_COUNT;
 
 // 1. Populate board w/ tiles and mines
 // 2. Left click on tiles
