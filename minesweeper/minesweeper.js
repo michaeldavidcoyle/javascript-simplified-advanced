@@ -9,6 +9,8 @@ const TILE_STATUS = {
 
 export function createBoard(boardSize, mineCount) {
     const board = [];
+    const minePositions = positionMines(boardSize, mineCount);
+
     for (let x = 0; x < boardSize; x++) {
         const row = [];
         for (let y = 0; y < boardSize; y++) {
@@ -18,6 +20,7 @@ export function createBoard(boardSize, mineCount) {
                 element,
                 x,
                 y,
+                mine: minePositions.some(p => positionMatch(p, {x, y})),
                 get status() {
                     return this.element.dataset.status;
                 },
@@ -31,4 +34,28 @@ export function createBoard(boardSize, mineCount) {
     }
 
     return board;
+}
+
+function positionMines(boardSize, mineCount) {
+    const positions = [];
+
+    while (positions.length < mineCount) {
+        const position = {
+            x: randomNumber(boardSize),
+            y: randomNumber(boardSize)
+        }
+
+        if (!positions.some(p => positionMatch(p, position))) {
+            positions.push(position);
+        }
+    }
+    return positions;
+}
+
+function positionMatch(a, b) {
+    return a.x === b.x && a.y === b.y;
+}
+
+function randomNumber(size) {
+    return Math.floor(Math.random() * size);
 }
