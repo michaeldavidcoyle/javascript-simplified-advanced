@@ -15,7 +15,7 @@ export function createBoard(boardSize, mineCount) {
         const row = [];
         for (let y = 0; y < boardSize; y++) {
             const element = document.createElement('div');
-            element.dataset.status = TILE_STATUS.hidden;
+            element.dataset.status = TILE_STATUS.HIDDEN;
             const tile = {
                 element,
                 x,
@@ -34,6 +34,21 @@ export function createBoard(boardSize, mineCount) {
     }
 
     return board;
+}
+
+export function markTile(tile) {
+    if (
+        tile.status !== TILE_STATUS.HIDDEN &&
+        tile.status !== TILE_STATUS.MARKED
+    ) {
+        return;
+    }
+
+    if (tile.status === TILE_STATUS.MARKED) {
+        tile.status = TILE_STATUS.HIDDEN;
+    } else {
+        tile.status = TILE_STATUS.MARKED;
+    }
 }
 
 function positionMines(boardSize, mineCount) {

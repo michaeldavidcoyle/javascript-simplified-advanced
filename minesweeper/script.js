@@ -1,6 +1,6 @@
 // display
 
-import { createBoard } from "./minesweeper.js";
+import { createBoard, markTile } from "./minesweeper.js";
 
 const BOARD_SIZE = 8;
 const MINE_COUNT = 4;
@@ -11,7 +11,12 @@ const minesLeft = document.querySelector('[data-mine-count]');
 
 board.forEach(row => {
     row.forEach(tile => {
-        boardElement.appendChild(tile.element)
+        boardElement.appendChild(tile.element);
+
+        tile.element.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            markTile(tile);
+        });
     });
 });
 
