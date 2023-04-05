@@ -1,6 +1,6 @@
 // display
 
-import { createBoard, markTile } from "./minesweeper.js";
+import { createBoard, markTile, TILE_STATUS } from "./minesweeper.js";
 
 const BOARD_SIZE = 8;
 const MINE_COUNT = 4;
@@ -16,6 +16,7 @@ board.forEach(row => {
         tile.element.addEventListener('contextmenu', event => {
             event.preventDefault();
             markTile(tile);
+            updateMinesLeft();
         });
     });
 });
@@ -23,9 +24,15 @@ board.forEach(row => {
 boardElement.style.setProperty('--size', BOARD_SIZE);
 minesLeft.innerText = MINE_COUNT;
 
-// 1. Populate board w/ tiles and mines
+function updateMinesLeft() {
+    const markedTilesCount = board.reduce((count, row) => {
+        return count + row.filter(tile => tile.status === TILE_STATUS.MARKED).length;
+    }, 0);
+
+    minesLeft.innerText = MINE_COUNT - markedTilesCount;
+}
+
 // 2. Left click on tiles
     // a. reveal tiles
-// 3. Right click on tiles
-    // a. mark tiles
+
 // 4. check for win/loss

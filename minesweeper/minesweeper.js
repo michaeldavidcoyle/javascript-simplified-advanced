@@ -1,6 +1,6 @@
 // logic
 
-const TILE_STATUS = {
+export const TILE_STATUS = {
     HIDDEN: 'hidden',
     MINE: 'mine',
     NUMBER: 'number',
