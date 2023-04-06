@@ -20,6 +20,7 @@ export function createBoard(boardSize, mineCount) {
                 element,
                 x,
                 y,
+                adjacentMineCount: 0,
                 mine: minePositions.some(p => positionMatch(p, {x, y})),
                 get status() {
                     return this.element.dataset.status;
@@ -49,6 +50,17 @@ export function markTile(tile) {
     } else {
         tile.status = TILE_STATUS.MARKED;
     }
+}
+
+export function revealTile(tile) {
+    if (tile.status !== TILE_STATUS.HIDDEN) return;
+    if (tile.mine) {
+        tile.status = TILE_STATUS.MINE;
+        // lose();
+        return;
+    }
+
+    tile.status = TILE_STATUS.NUMBER;
 }
 
 function positionMines(boardSize, mineCount) {
