@@ -3,7 +3,7 @@
 import { createBoard, markTile, TILE_STATUS, revealTile } from "./minesweeper.js";
 
 const BOARD_SIZE = 8;
-const MINE_COUNT = 7;
+const MINE_COUNT = 10;
 
 const board = createBoard(BOARD_SIZE, MINE_COUNT);
 const boardElement = document.querySelector('.board');
@@ -13,22 +13,8 @@ board.forEach(row => {
     row.forEach(tile => {
         boardElement.appendChild(tile.element);
 
-        if (tile.mine) {
-            for (let y = tile.y - 1; y <= tile.y + 1; y++) {
-                for (let x = tile.x - 1; x <= tile.x + 1; x++) {
-                    let adjacent = board?.[x]?.[y];
-                    if (adjacent !== undefined) {
-                        adjacent.adjacentMineCount++;
-                    }
-                }
-            }
-        }
-
         tile.element.addEventListener('click', () => {
-            revealTile(tile);
-            if (!tile.mine && tile.adjacentMineCount > 0) {
-                tile.element.innerText = tile.adjacentMineCount;
-            }
+            revealTile(board, tile);
         });
         tile.element.addEventListener('contextmenu', event => {
             event.preventDefault();
