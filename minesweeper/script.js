@@ -48,6 +48,11 @@ function checkGameEnd() {
     const win = checkWin(board);
     const lose = checkLose(board);
 
+    if (win || lose) {
+        boardElement.addEventListener('click', stopProp, {capture: true});
+        boardElement.addEventListener('contextmenu', stopProp, {capture: true});
+    }
+
     if (win) {
         message.innerText = 'You win!';
     }
@@ -57,4 +62,6 @@ function checkGameEnd() {
     }
 }
 
-// 4. check for win/loss
+function stopProp(event) {
+    event.stopImmediatePropagation();
+}
