@@ -72,6 +72,23 @@ export function revealTile(board, tile) {
     }
 }
 
+export function checkWin(board) {
+    return board.every(row => {
+        return row.every(tile => {
+           const isMine = tile.mine;
+           const isNumber = tile.status === TILE_STATUS.NUMBER;
+           const isHidden = tile.status === TILE_STATUS.HIDDEN;
+           const isMarked = tile.status === TILE_STATUS.MARKED;
+
+           return isNumber || (isMine && isHidden || isMarked);
+        });
+    });
+}
+
+export function checkLose(board) {
+    return board.some(row => row.some(tile => tile.status === TILE_STATUS.MINE));
+}
+
 function positionMines(boardSize, mineCount) {
     const positions = [];
 

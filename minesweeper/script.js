@@ -1,13 +1,21 @@
 // display
 
-import { createBoard, markTile, TILE_STATUS, revealTile } from "./minesweeper.js";
+import {
+    createBoard,
+    markTile,
+    TILE_STATUS,
+    revealTile,
+    checkWin,
+    checkLose
+} from "./minesweeper.js";
 
 const BOARD_SIZE = 8;
-const MINE_COUNT = 10;
+const MINE_COUNT = 3;
 
 const board = createBoard(BOARD_SIZE, MINE_COUNT);
 const boardElement = document.querySelector('.board');
 const minesLeft = document.querySelector('[data-mine-count]');
+const message = document.querySelector('.subtext');
 
 board.forEach(row => {
     row.forEach(tile => {
@@ -15,6 +23,7 @@ board.forEach(row => {
 
         tile.element.addEventListener('click', () => {
             revealTile(board, tile);
+            checkGameEnd();
         });
         tile.element.addEventListener('contextmenu', event => {
             event.preventDefault();
@@ -35,7 +44,17 @@ function updateMinesLeft() {
     minesLeft.innerText = MINE_COUNT - markedTilesCount;
 }
 
-// 2. Left click on tiles
-    // a. reveal tiles
+function checkGameEnd() {
+    const win = checkWin(board);
+    const lose = checkLose(board);
+
+    if (win) {
+        message.innerText = 'You win!';
+    }
+
+    if (lose) {
+        message.innerText = 'Sorry, you lose.'
+    }
+}
 
 // 4. check for win/loss
