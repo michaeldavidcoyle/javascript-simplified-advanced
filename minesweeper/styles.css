@@ -7,7 +7,8 @@ body {
     background-color: #333;
     display: flex;
     align-items: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
+    font-family: Helvetica, sans-serif;
     flex-direction: column;
     color: white;
 }
@@ -56,5 +57,5 @@ body {
 }
 
 .board > [data-status="marked"] {
-    background-color: yellow;
+    background-color: #ddd;
 }

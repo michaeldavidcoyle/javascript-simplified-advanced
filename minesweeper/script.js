@@ -9,13 +9,15 @@ import {
     checkLose
 } from "./minesweeper.js";
 
-const BOARD_SIZE = 8;
-const MINE_COUNT = 3;
+const BOARD_SIZE = 10;
+const MINE_COUNT = 16;
 
 const board = createBoard(BOARD_SIZE, MINE_COUNT);
 const boardElement = document.querySelector('.board');
 const minesLeft = document.querySelector('[data-mine-count]');
 const outputElement = document.querySelector('.subtext');
+const FLAG = '&#x1F6A9;';
+const BOMB = '&#x1F4A3;'
 
 board.forEach(row => {
     row.forEach(tile => {
@@ -23,11 +25,19 @@ board.forEach(row => {
 
         tile.element.addEventListener('click', () => {
             revealTile(board, tile);
+            if (tile.status === TILE_STATUS.MINE) {
+                tile.element.innerHTML = BOMB;
+            }
             checkGameEnd();
         });
         tile.element.addEventListener('contextmenu', event => {
             event.preventDefault();
             markTile(tile);
+            if (tile.status === TILE_STATUS.MARKED) {
+                tile.element.innerHTML = FLAG;
+            } else {
+                tile.element.innerHTML = '';
+            }
             updateMinesLeft();
         });
     });
@@ -62,7 +72,10 @@ function checkGameEnd() {
         board.forEach(row => {
             row.forEach(tile => {
                 if (tile.status === TILE_STATUS.MARKED) markTile(tile);
-                if (tile.mine) revealTile(board, tile);
+                if (tile.mine) {
+                    revealTile(board, tile);
+                    tile.element.innerHTML = BOMB;
+                }
             })
         });
     }
