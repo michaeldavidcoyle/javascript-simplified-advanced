@@ -2,62 +2,39 @@ const form = document.querySelector('#equation-form');
 const input = document.querySelector('#equation');
 const results = document.querySelector('#results');
 
-const operatorPatterns = ['\\*|\\/', '\\+|-'];
-const numberPattern = '-?\\d*(?:\\.\\d+)?';
-let expression;
+const MULTIPLY_DIVIDE_REGEX = /(?<operand0>\S+)\s*(?<operator>[*\/])\s*(?<operand1>\S+)/;
+const ADD_SUBTRACT_REGEX = /(?<operand0>\S+)\s*(?<!e)(?<operator>[+-])\s*(?<operand1>\S+)/;
 
 form.addEventListener('submit', event => {
     event.preventDefault();
-    expression = input.value;
-    results.innerText = calculate(expression);
+    let expression = input.value;
+    results.innerText = parse(expression);
 });
 
-function calculate(expression) {
-    operatorPatterns.forEach(operator => {
-        let operatorRegEx = RegExp(`(?<=.+)(?:${operator})`);
-        console.log(operatorRegEx)
-        let subRegEx = RegExp(`${numberPattern} *(?:${operator}) *${numberPattern}`);
-        console.log(`subRegEx: ${subRegEx}`)
-
-        while (subRegEx.test(expression)) {
-            let subexpression = expression.match(subRegEx)?.[0];
-            if (subexpression) {
-                console.log(`subexpression: ${subexpression}`)
-                let operand0 = subexpression.match(RegExp(`^${numberPattern}`))[0];
-                // subexpression = subexpression.replace(operand0, '');
-                let _operator = subexpression.match(operatorRegEx)?.[0];
-                if (_operator == null) {
-                    expression = subexpression;
-                    break;
-                }
-                let operand1 = subexpression.match(RegExp(`${numberPattern}$`))[0];
-                let result = evaluate(_operator, +operand0.trim(), +operand1.trim());
-                expression = expression.replace(subexpression, result);
-            } else {
-                break;
-            }
-        }
-    });
-
-    return !isNaN(+expression) ? expression : NaN;
+function parse(expression) {
+    if (expression.match(MULTIPLY_DIVIDE_REGEX)) {
+        const result = evaluate(expression.match(MULTIPLY_DIVIDE_REGEX).groups);
+        return parse(expression.replace(MULTIPLY_DIVIDE_REGEX, result));
+    } else if (expression.match(ADD_SUBTRACT_REGEX)) {
+        const result = evaluate(expression.match(ADD_SUBTRACT_REGEX).groups);
+        return parse(expression.replace(ADD_SUBTRACT_REGEX, result));
+    } else {
+        return parseFloat(expression);
+    }
 }
 
-function evaluate(operator, operand0, operand1) {
-    let result;
+function evaluate({operator, operand0, operand1}) {
+    const n0 = parseFloat(operand0);
+    const n1 = parseFloat(operand1);
+
     switch (operator) {
         case '*':
-            result = operand0 * operand1;
-            break;
+            return n0 * n1;
         case '/':
-            result = operand0 / operand1;
-            break;
+            return n0 / n1;
         case '+':
-            result = operand0 + operand1;
-            break;
+            return n0 + n1;
         case '-':
-            result = operand0 - operand1;
-            break;
+            return n0 - n1;
     }
-
-    return result.toString();
 }
