@@ -2,7 +2,7 @@ const form = document.querySelector('#equation-form');
 const input = document.querySelector('#equation');
 const results = document.querySelector('#results');
 
-const EXPONENT_REGEX = /(?<operand0>\S+)\s*(?<operator>\^)\s*(?<operand1>\S+)/;
+const EXPONENT_REGEX = /(?<operand0>\S+)\s*(?<operator>\^)(?!.+\^)\s*(?<operand1>\S+)/;
 const MULTIPLY_DIVIDE_REGEX = /(?<operand0>\S+)\s*(?<operator>[*\/])\s*(?<operand1>\S+)/;
 const ADD_SUBTRACT_REGEX = /(?<operand0>\S+)\s*(?<!e)(?<operator>[+-])\s*(?<operand1>\S+)/;
 
