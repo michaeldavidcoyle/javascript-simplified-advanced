@@ -1,7 +1,6 @@
 const form = document.querySelector('#equation-form');
 const input = document.querySelector('#equation');
 const results = document.querySelector('#results');
-const steps = document.querySelector('#steps');
 
 const PARENTHESES_REGEX = /\((?<expression>[^()]*)\)/;
 const EXPONENT_REGEX = /(?<operand0>(?<!\s*\d+\s*)-?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*(?<operator>\^)(?!.*\^.*)\s*(?<operand1>-?\d*\.?\d+(?:[eE][+-]?\d+)?)/;
@@ -10,7 +9,6 @@ const ADD_SUBTRACT_REGEX = /(?<operand0>(?<!\s*\d+\s*)-?\d*\.?\d+(?:[eE][+-]?\d+
 
 form.addEventListener('submit', event => {
     event.preventDefault();
-    steps.innerText = '';
     let expression = input.value;
     results.innerText = `= ${parse(expression)}`;
 });
