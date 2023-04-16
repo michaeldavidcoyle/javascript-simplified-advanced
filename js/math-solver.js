@@ -4,9 +4,9 @@ const results = document.querySelector('#results');
 const steps = document.querySelector('#steps');
 
 const PARENTHESES_REGEX = /\((?<expression>[^()]*)\)/;
-const EXPONENT_REGEX = /(?<operand0>\S+)\s*(?<operator>\^)(?!.*\^.*)\s*(?<operand1>\S+)/;
-const MULTIPLY_DIVIDE_REGEX = /(?<operand0>\S+)\s*(?<operator>[*\/])\s*(?<operand1>\S+)/;
-const ADD_SUBTRACT_REGEX = /(?<operand0>\S+)\s*(?<!e)(?<operator>[+-])\s*(?<operand1>\S+)/;
+const EXPONENT_REGEX = /(?<operand0>-?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*(?<operator>\^)(?!.*\^.*)\s*(?<operand1>-?\d*\.?\d+(?:[eE][+-]?\d+)?)/;
+const MULTIPLY_DIVIDE_REGEX = /(?<operand0>-?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*(?<operator>[*\/])\s*(?<operand1>-?\d*\.?\d+(?:[eE][+-]?\d+)?)/;
+const ADD_SUBTRACT_REGEX = /(?<operand0>-?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*(?<!e)(?<operator>[+-])\s*(?<operand1>-?\d*\.?\d+(?:[eE][+-]?\d+)?)/;
 
 form.addEventListener('submit', event => {
     event.preventDefault();
