@@ -8,14 +8,10 @@
 
 // Account class
 const Account = require('./Account');
-const readline = require('readline');
+const CommandLine = require('./CommandLine');
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+async function main() {
+    const accountNumber = await CommandLine.ask('Please enter account number:');
+}
 
-rl.question("Please enter account number: ", answer => {
-    console.log(answer);
-    rl.close();
-});
+main();
