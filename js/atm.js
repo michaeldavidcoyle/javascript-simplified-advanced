@@ -11,7 +11,14 @@ const Account = require('./Account');
 const CommandLine = require('./CommandLine');
 
 async function main() {
-    const accountNumber = await CommandLine.ask('Please enter account number:');
+    const accountName = await CommandLine.ask('Please enter account name:');
+    const account = await Account.find(accountName);
+
+    if (account) {
+        console.log('Found acct');
+    } else {
+        console.log('No account matching that name.')
+    }
 }
 
 main();
