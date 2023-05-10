@@ -15,13 +15,27 @@ async function main() {
     let account = await Account.find(accountName);
 
     if (account == null) account = await promptCreateAccount(accountName);
+    if (account != null) account = await promptTask(account);
 }
 
 async function promptCreateAccount(accountName) {
-    const response = CommandLine.ask('That account does not exist, would you like to create it? (y/n)');
+    const response = CommandLine.ask(
+        'That account does not exist, would you like to create it? (y/n)'
+    );
 
     if (response === 'y' || response === 'Y') {
         return await Account.create(accountName);
+    }
+}
+
+async function promptTask(account) {
+    const response = await CommandLine.ask(
+        'What would you like to do? (view/deposit/withdraw)'
+    );
+
+    if (response === 'deposit') {
+        const amount = parseFloat(await CommandLine.ask('Enter deposit amount:'));
+        await account.deposit(amount);
     }
 }
 
