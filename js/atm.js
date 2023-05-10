@@ -19,7 +19,7 @@ async function main() {
 }
 
 async function promptCreateAccount(accountName) {
-    const response = CommandLine.ask(
+    const response = await CommandLine.ask(
         'That account does not exist, would you like to create it? (y/n)'
     );
 
