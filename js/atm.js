@@ -12,12 +12,16 @@ const CommandLine = require('./CommandLine');
 
 async function main() {
     const accountName = await CommandLine.ask('Please enter account name:');
-    const account = await Account.find(accountName);
+    let account = await Account.find(accountName);
 
-    if (account) {
-        console.log('Found acct');
-    } else {
-        console.log('No account matching that name.')
+    if (account == null) account = await promptCreateAccount(accountName);
+}
+
+async function promptCreateAccount(accountName) {
+    const response = CommandLine.ask('That account does not exist, would you like to create it? (y/n)');
+
+    if (response === 'y' || response === 'Y') {
+        return await Account.create(accountName);
     }
 }
 
