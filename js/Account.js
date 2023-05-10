@@ -34,4 +34,13 @@ module.exports = class Account {
             return;
         }
     }
+
+    static async create(accountName) {
+        const account = new Account(accountName);
+
+        await FileSystem.write(account.filePath, 0);
+        account.#balance = 0;
+
+        return account;
+    }
 }
