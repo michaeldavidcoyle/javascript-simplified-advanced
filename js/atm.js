@@ -36,6 +36,7 @@ async function promptTask(account) {
     if (response === 'deposit') {
         const amount = parseFloat(await CommandLine.ask('Enter deposit amount:'));
         await account.deposit(amount);
+        CommandLine.print(`Your account balance is ${account.balance}`);
     }
 }
 
