@@ -11,11 +11,15 @@ const Account = require('./Account');
 const CommandLine = require('./CommandLine');
 
 async function main() {
-    const accountName = await CommandLine.ask('Please enter account name:');
-    let account = await Account.find(accountName);
+    try {
+        const accountName = await CommandLine.ask('Please enter account name:');
+        let account = await Account.find(accountName);
 
-    if (account == null) account = await promptCreateAccount(accountName);
-    if (account != null) account = await promptTask(account);
+        if (account == null) account = await promptCreateAccount(accountName);
+        if (account != null) account = await promptTask(account);
+    } catch (e) {
+        CommandLine.print('Sorry, something went wrong. Please try again.')
+    }
 }
 
 async function promptCreateAccount(accountName) {
