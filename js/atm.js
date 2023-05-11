@@ -36,8 +36,16 @@ async function promptTask(account) {
     if (response === 'deposit') {
         const amount = parseFloat(await CommandLine.ask('Enter deposit amount:'));
         await account.deposit(amount);
-        CommandLine.print(`Your account balance is ${account.balance}`);
+    } else if (response === 'withdraw') {
+        const amount = parseFloat(await CommandLine.ask('Enter amount to withdraw:'));
+        try {
+            await account.withdraw(amount);
+        } catch(e) {
+            CommandLine.print('Sorry, your account has insufficient funds to cover this withdrawal.');
+        }
     }
+
+    CommandLine.print(`Your balance is ${account.balance}`);
 }
 
 main();
