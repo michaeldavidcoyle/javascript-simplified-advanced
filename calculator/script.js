@@ -1,4 +1,4 @@
-import Calculator from "./Calculator";
+import Calculator from "./Calculator.js";
 
 // actions
 // click:
@@ -9,7 +9,15 @@ import Calculator from "./Calculator";
 //   - decimal point
 //   - equals
 
-const calculator = new Calculator();
+const primaryOperandDisplay = document.querySelector('[data-primary-operand]');
+const secondaryOperandDisplay = document.querySelector('[data-secondary-operand]');
+const operationDisplay = document.querySelector('[data-operation]');
+
+const calculator = new Calculator(
+    primaryOperandDisplay,
+    secondaryOperandDisplay,
+    operationDisplay
+);
 
 document.addEventListener('click', event => {
     if (event.target.matches('[data-all-clear]')) {
