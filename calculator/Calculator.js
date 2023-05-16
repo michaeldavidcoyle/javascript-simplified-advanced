@@ -21,22 +21,20 @@ export default class Calculator {
     }
 
     pushDigit(digit) {
-        if (this.operationDisplay.textContent === '') {
-            this.primaryOperand += digit;
-            this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
-        } else {
-            this.secondaryOperand += digit;
-            this.secondaryOperandDisplay.textContent = parseFloat(this.secondaryOperand).toLocaleString();
-        }
+        this.primaryOperand += digit;
+        this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
     }
 
     popDigit() {
-        if (this.operationDisplay.textContent === '') {
-            this.primaryOperand = this.primaryOperand.slice(0, -1);
-            this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
-        } else {
-            this.secondaryOperand = this.secondaryOperand.slice(0, -1);
-            this.secondaryOperandDisplay.textContent = parseFloat(this.secondaryOperand).toLocaleString();
-        }
+        this.primaryOperand = this.primaryOperand.slice(0, -1);
+        this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+    }
+
+    operation(operator) {
+        this.operationDisplay.textContent = operator;
+        this.secondaryOperand = this.primaryOperand;
+        this.secondaryOperandDisplay.textContent = this.secondaryOperand;
+        this.primaryOperand = 0;
+        this.primaryOperandDisplay.textContent = this.primaryOperand;
     }
 }
