@@ -23,6 +23,8 @@ export default class Calculator {
     }
 
     pushDigit(digit) {
+        if (digit === '.' && this.primaryOperand.includes('.')) return;
+
         this.primaryOperand += digit;
         this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
     }
