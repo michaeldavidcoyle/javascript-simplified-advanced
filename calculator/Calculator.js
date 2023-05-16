@@ -30,8 +30,13 @@ export default class Calculator {
     }
 
     popDigit() {
-        this.primaryOperand = this.primaryOperand.slice(0, -1);
-        this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+        if (this.primaryOperand.length <= 1) {
+            this.primaryOperand = '';
+            this.primaryOperandDisplay.textContent = 0;
+        } else {
+            this.primaryOperand = this.primaryOperand.slice(0, -1);
+            this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+        }
     }
 
     operation(operator) {
