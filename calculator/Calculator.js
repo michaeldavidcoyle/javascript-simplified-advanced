@@ -29,4 +29,14 @@ export default class Calculator {
             this.secondaryOperandDisplay.textContent = parseFloat(this.secondaryOperand).toLocaleString();
         }
     }
+
+    popDigit() {
+        if (this.operationDisplay.textContent === '') {
+            this.primaryOperand = this.primaryOperand.slice(0, -1);
+            this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+        } else {
+            this.secondaryOperand = this.secondaryOperand.slice(0, -1);
+            this.secondaryOperandDisplay.textContent = parseFloat(this.secondaryOperand).toLocaleString();
+        }
+    }
 }
