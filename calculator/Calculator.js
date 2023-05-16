@@ -18,6 +18,8 @@ export default class Calculator {
         this.primaryOperandDisplay.textContent = 0;
         this.secondaryOperandDisplay.textContent = '';
         this.operationDisplay.textContent = '';
+        this.primaryOperand = '';
+        this.secondaryOperand = '';
     }
 
     pushDigit(digit) {
@@ -36,5 +38,31 @@ export default class Calculator {
         this.secondaryOperandDisplay.textContent = this.secondaryOperand;
         this.primaryOperand = 0;
         this.primaryOperandDisplay.textContent = this.primaryOperand;
+    }
+
+    evaluate() {
+        let result;
+        let operand1 = parseFloat(this.secondaryOperand);
+        let operand2 = parseFloat(this.primaryOperand);
+        switch (this.operationDisplay.textContent) {
+            case '+':
+                result = operand1 + operand2;
+                break;
+            case '-':
+                result = operand1 - operand2;
+                break;
+            case '*':
+                result = operand1 * operand2;
+                break;
+            case '÷':
+                result = operand1 / operand2;
+                break;
+            default:
+                return;
+        }
+
+        this.clear();
+        this.primaryOperand = result.toString();
+        this.primaryOperandDisplay.textContent = result.toLocaleString();
     }
 }
