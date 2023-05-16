@@ -33,6 +33,9 @@ export default class Calculator {
     }
 
     operation(operator) {
+        if (this.operationDisplay.textContent.length) {
+            this.evaluate();
+        }
         this.operationDisplay.textContent = operator;
         this.secondaryOperand = this.primaryOperand;
         this.secondaryOperandDisplay.textContent = this.secondaryOperand;
