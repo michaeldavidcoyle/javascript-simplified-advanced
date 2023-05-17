@@ -14,6 +14,15 @@ export default class Calculator {
         this.clear();
     }
 
+    static format(number) {
+        const digitString = number?.toString() || '';
+        if (digitString === '') return '';
+        const [integer, decimal] = digitString.split('.');
+        const formattedInt = parseInt(integer).toLocaleString();
+        if (decimal == null) return formattedInt;
+        return `${formattedInt}.${decimal}`;
+    }
+
     clear() {
         this.primaryOperandDisplay.textContent = 0;
         this.secondaryOperandDisplay.textContent = '';
@@ -29,7 +38,7 @@ export default class Calculator {
             this.primaryOperand = '0';
         }
         this.primaryOperand += digit;
-        this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+        this.primaryOperandDisplay.textContent = Calculator.format(this.primaryOperand);
     }
 
     popDigit() {
@@ -38,7 +47,7 @@ export default class Calculator {
             this.primaryOperandDisplay.textContent = 0;
         } else {
             this.primaryOperand = this.primaryOperand.slice(0, -1);
-            this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
+            this.primaryOperandDisplay.textContent = Calculator.format(this.primaryOperand);
         }
     }
 
