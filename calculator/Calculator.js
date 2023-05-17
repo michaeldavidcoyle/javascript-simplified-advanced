@@ -25,6 +25,9 @@ export default class Calculator {
     pushDigit(digit) {
         if (digit === '.' && this.primaryOperand.includes('.')) return;
 
+        if (digit === '.' && this.primaryOperand.length === 0) {
+            this.primaryOperand = '0';
+        }
         this.primaryOperand += digit;
         this.primaryOperandDisplay.textContent = parseFloat(this.primaryOperand).toLocaleString();
     }
@@ -46,7 +49,7 @@ export default class Calculator {
         this.operationDisplay.textContent = operator;
         this.secondaryOperand = this.primaryOperand;
         this.secondaryOperandDisplay.textContent = this.secondaryOperand;
-        this.primaryOperand = 0;
+        this.primaryOperand = '0';
         this.primaryOperandDisplay.textContent = this.primaryOperand;
     }
 
