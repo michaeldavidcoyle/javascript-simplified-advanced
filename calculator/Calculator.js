@@ -4,14 +4,46 @@ export default class Calculator {
         secondaryOperandDisplay,
         operationDisplay
     ) {
-        this.primaryOperandDisplay = primaryOperandDisplay;
-        this.secondaryOperandDisplay = secondaryOperandDisplay;
-        this.operationDisplay = operationDisplay;
+        this.#primaryOperandDisplay = primaryOperandDisplay;
+        this.#secondaryOperandDisplay = secondaryOperandDisplay;
+        this.#operationDisplay = operationDisplay;
 
-        this.primaryOperand = '';
-        this.secondaryOperand = '';
+        this.#primaryOperandValue = '';
+        this.#secondaryOperandValue = '';
 
         this.clear();
+    }
+
+    #primaryOperandDisplay
+    #secondaryOperandDisplay
+    #operationDisplay
+    #primaryOperandValue;
+    #secondaryOperandValue;
+
+    get primaryOperand() {
+        return parseFloat(this.#primaryOperandValue);
+    }
+
+    set primaryOperand(value) {
+        this.#primaryOperandValue = value.toString() ?? '';
+        this.#primaryOperandDisplay.textContent = Calculator.format(value);
+    }
+
+    get secondaryOperand() {
+        return parseFloat(this.#secondaryOperandValue);
+    }
+
+    set secondaryOperand(value) {
+        this.#secondaryOperandValue = value ?? '';
+        this.#secondaryOperandDisplay.textContent = Calculator.format(value);
+    }
+
+    get operation() {
+        return this.#operationDisplay.textContent;
+    }
+
+    set operation(operator) {
+        this.#operationDisplay.textContent = operator ?? '';
     }
 
     static format(number) {
@@ -24,49 +56,43 @@ export default class Calculator {
     }
 
     clear() {
-        this.primaryOperandDisplay.textContent = 0;
-        this.secondaryOperandDisplay.textContent = '';
-        this.operationDisplay.textContent = '';
-        this.primaryOperand = '';
-        this.secondaryOperand = '';
+        this.primaryOperand = 0;
+        this.secondaryOperand = null;
+        this.operation = null;
     }
 
     pushDigit(digit) {
-        if (digit === '.' && this.primaryOperand.includes('.')) return;
+        if (digit === '.' && this.#primaryOperandValue.includes('.')) return;
 
-        if (digit === '.' && this.primaryOperand.length === 0) {
-            this.primaryOperand = '0';
+        if (digit === '.' && this.#primaryOperandValue.length === 0) {
+            this.primaryOperand = 0;
         }
-        this.primaryOperand += digit;
-        this.primaryOperandDisplay.textContent = Calculator.format(this.primaryOperand);
+        this.#primaryOperandValue += digit;
+        this.primaryOperand = this.#primaryOperandValue;
     }
 
     popDigit() {
-        if (this.primaryOperand.length <= 1) {
-            this.primaryOperand = '';
-            this.primaryOperandDisplay.textContent = 0;
+        if (this.#primaryOperandValue.length <= 1) {
+            this.primaryOperand = 0;
         } else {
-            this.primaryOperand = this.primaryOperand.slice(0, -1);
-            this.primaryOperandDisplay.textContent = Calculator.format(this.primaryOperand);
+            this.primaryOperand = this.#primaryOperandValue.slice(0, -1);
         }
     }
 
-    operation(operator) {
-        if (this.operationDisplay.textContent.length) {
+    selectOperation(operator) {
+        if (this.#operationDisplay.textContent.length) {
             this.evaluate();
         }
-        this.operationDisplay.textContent = operator;
+        this.operation = operator;
         this.secondaryOperand = this.primaryOperand;
-        this.secondaryOperandDisplay.textContent = this.secondaryOperand;
-        this.primaryOperand = '0';
-        this.primaryOperandDisplay.textContent = this.primaryOperand;
+        this.primaryOperand = 0;
     }
 
     evaluate() {
         let result;
-        let operand1 = parseFloat(this.secondaryOperand);
-        let operand2 = parseFloat(this.primaryOperand);
-        switch (this.operationDisplay.textContent) {
+        let operand1 = this.secondaryOperand;
+        let operand2 = this.primaryOperand;
+        switch (this.operation) {
             case '+':
                 result = operand1 + operand2;
                 break;
@@ -84,7 +110,6 @@ export default class Calculator {
         }
 
         this.clear();
-        this.primaryOperand = result.toString();
-        this.primaryOperandDisplay.textContent = result.toLocaleString();
+        this.primaryOperand = result;
     }
 }

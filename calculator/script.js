@@ -30,7 +30,7 @@ document.addEventListener('click', event => {
         calculator.popDigit();
     }
     if (event.target.matches('[data-operation]')) {
-        calculator.operation(event.target.textContent);
+        calculator.selectOperation(event.target.textContent);
     }
     if (event.target.matches('[data-equals]')) {
         calculator.evaluate();
