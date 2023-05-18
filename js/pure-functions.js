@@ -24,3 +24,31 @@ function arrayPlus(arr, element) {
 const newArray = arrayPlus(array, 7);
 console.log(newArray);  // new array
 console.log(array); // original array is unchanged
+
+// exercise:
+// convert the following to a pure function
+const person = {
+    name: 'Fred',
+    friends: ['Joe', 'Annie']
+}
+
+function addFriend(friend) {
+    person.friends.push(friend);
+}
+
+addFriend('Dave');
+
+console.log(person);
+
+const person2 = {
+    name: 'Bob',
+    friends: ['John', 'Michael']
+}
+
+function appendFriend(p, friendName) {
+    return { ...p, friends: [...p.friends, friendName] };
+}
+
+console.log(appendFriend(person2, 'Sally'));
+
+console.log(person2); // unchanged
